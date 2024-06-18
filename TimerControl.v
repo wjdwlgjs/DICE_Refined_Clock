@@ -8,14 +8,9 @@ module TimerControl(/*AUTOARG*/);
    input i_left;
    input i_right;
 
-   // input i_ms_carryup;
    input i_ms_borrowdown;
-   // input i_sec_carryup;
    input i_sec_borrowdown;
-   // input i_min_carryup;
    input i_min_borrowdown;
-   // input i_hr_carryup;
-   input i_hr_borrowdown;
 
    input [9:0] i_ms;
    input [5:0] i_sec;

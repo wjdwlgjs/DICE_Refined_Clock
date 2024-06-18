@@ -1,4 +1,9 @@
-module CounterFiftyNine2(/*AUTOARG*/);
+module CounterFiftyNine2(/*AUTOARG*/
+   // Outputs
+   o_count, o_carryup, o_borrowdown,
+   // Inputs
+   i_clk, i_rstn, i_up, i_down
+   );
 
    input i_clk;
    input i_rstn;
