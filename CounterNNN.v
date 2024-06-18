@@ -1,4 +1,9 @@
-module CounterNNN(/*AUTOARG*/);
+module CounterNNN(/*AUTOARG*/
+   // Outputs
+   o_carryup, o_borrowdown, o_count,
+   // Inputs
+   i_clk, i_rstn, i_up, i_down
+   );
    input i_clk;
    input i_rstn;
    input i_up;
@@ -12,8 +17,8 @@ module CounterNNN(/*AUTOARG*/);
    wire [9:0] w_next_countdown;
    reg [9:0]  r_count;
 
-   assign w_next_countup = r_count == 10'd999? 10'd0 : r_count + 10d1;
-   assign w_next_countdown = r_count == 10'd0? 10'd999 : r_count - 10'd1;
+   assign w_next_countup = r_count == 10'd999 ? 10'd0 : r_count + 10'd1;
+   assign w_next_countdown = r_count == 10'd0 ? 10'd999 : r_count - 10'd1;
 
    always @(posedge i_clk or negedge i_rstn) begin
       if (!i_rstn) r_count <= 10'd0;

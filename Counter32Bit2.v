@@ -88,7 +88,7 @@ module Counter32Bit2(/*AUTOARG*/
    
    always @(posedge i_clk or negedge i_rstn) begin
       if (!i_rstn) r_count <= 32'd0;
-      else if (i_enable) r_count <= r_count;
+      else if (!i_enable) r_count <= r_count;
       else
 	case(r_count)
 	  c_limit: r_count <= 32'd0;
