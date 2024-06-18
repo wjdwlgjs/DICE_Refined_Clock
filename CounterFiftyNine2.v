@@ -20,8 +20,8 @@ module CounterFiftyNine2(/*AUTOARG*/
    reg [5:0] 	r_count;
    
 
-   assign w_next_countup = r_count == 6'd59? 6'd0 : r_count + 6'd1;
-   assign w_next_countdown = r_count == 6'd0? 6'd59 : r_count - 6'd1;
+   assign w_next_countup = r_count == 6'd59 ? 6'd0 : r_count + 6'd1;
+   assign w_next_countdown = r_count == 6'd0 ? 6'd59 : r_count - 6'd1;
 
    always @(posedge i_clk or negedge i_rstn) begin
       if (!i_rstn) r_count <= 6'd0;
@@ -35,7 +35,7 @@ module CounterFiftyNine2(/*AUTOARG*/
    end
 
    assign o_count = r_count;
-   assign w_next_countup = {i_up, i_down, r_count} == {2'b10, 4'd59};
-   assign w_next_countdown = {i_up, i_down, r_count} == {2'b01, 4'd0};
+   assign o_carryup = {i_up, i_down, r_count} == {2'b10, 6'd59};
+   assign o_borrowdown = {i_up, i_down, r_count} == {2'b01, 6'd0};
 
 endmodule // CounterFiftyNine2

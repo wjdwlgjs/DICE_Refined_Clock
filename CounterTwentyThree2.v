@@ -17,8 +17,8 @@ module CounterTwentyThree2(/*AUTOARG*/
    wire [4:0] 	w_next_countdown;
    reg [4:0] 	r_count;
 
-   assign w_next_countup = r_count == 5'd23? 5'd0 : r_count + 5'd1;
-   assign w_next_countdown = r_count == 5'd0? 5'd23 : r_count - 5'd1;
+   assign w_next_countup = r_count == 5'd23 ? 5'd0 : r_count + 5'd1;
+   assign w_next_countdown = r_count == 5'd0 ? 5'd23 : r_count - 5'd1;
 
    always @(posedge i_clk or negedge i_rstn) begin
       if (!i_rstn) r_count <= 5'd0;

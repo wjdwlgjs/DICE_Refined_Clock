@@ -72,7 +72,7 @@ module ClockControl(/*AUTOARG*/
 	     endcase
 	  end
 	  {c_set_hr, 1'b1}: begin
-	     case({i_left, i_rignt}) 
+	     case({i_left, i_right}) 
 	       2'b01: r_cur_state <= c_set_min;
 	       2'b10: r_cur_state <= c_set_sec;
 	       default: r_cur_state <= r_cur_state;

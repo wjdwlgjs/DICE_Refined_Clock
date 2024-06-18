@@ -1,3 +1,8 @@
+`include "CounterNNN.v"
+`include "CounterFiftyNine2.v"
+`include "CounterTwentyThree2.v"
+`include "ClockControl.v"
+
 module ClockModule(/*AUTOARG*/
    // Outputs
    o_sec, o_min, o_hr,
