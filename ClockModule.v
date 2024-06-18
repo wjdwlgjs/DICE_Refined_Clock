@@ -42,6 +42,7 @@ module ClockModule(/*AUTOARG*/
    CounterNNN MSCounter(// Outputs
 			.o_carryup	(w_ms_carryup),
 			.o_borrowdown	(),
+			.o_count(),
 			// Inputs
 			.i_clk		(i_clk),
 			.i_rstn		(i_rstn),

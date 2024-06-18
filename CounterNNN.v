@@ -6,6 +6,7 @@ module CounterNNN(/*AUTOARG*/);
 
    output o_carryup;
    output o_borrowdown;
+   output [9:0] o_count;
 
    wire [9:0] w_next_countup;
    wire [9:0] w_next_countdown;
@@ -27,5 +28,6 @@ module CounterNNN(/*AUTOARG*/);
 
    assign o_carryup = {i_up, i_down, r_count} == {2'b10, 10'd999};
    assign o_borrowdown = {i_up, i_down, r_count} == {2'b01, 10'd0};
+   assign o_count = r_count;
 
 endmodule // CounterNNN

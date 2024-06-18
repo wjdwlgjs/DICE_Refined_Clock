@@ -10,10 +10,10 @@ module StopWatchControl(/*AUTOARG*/
    input i_clk;
    input i_rstn;
    input i_set;
-   // input i_up;
-   // input i_down;
-   // input i_left;
-   // input i_right;
+   input i_up;
+   input i_down;
+   input i_left;
+   input i_right;
 
    input i_ms_carryup;
    input i_sec_carryup;
