@@ -1,6 +1,6 @@
 module Counter32Bit2(/*AUTOARG*/
    // Outputs
-   o_count,
+   o_count, o_ms_pulse,
    // Inputs
    i_clk, i_rstn, i_enable
    );
