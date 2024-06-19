@@ -1,8 +1,8 @@
-module Top(/*AUTOARG*/
+module Top1(/*AUTOARG*/
    // Outputs
    SECOND, MINUTES, HOURS, O_MC,
    // Inputs
-   CLK, RSTN, SET, UP, DOWN, LEFT, RIGHT, I_MC, i_mode, i_summertime_set
+   CLK, RSTN, SET, UP, DOWN, LEFT, RIGHT, I_MC, i_mode, i_summertime
    );
    input CLK;
    input RSTN;
@@ -13,7 +13,7 @@ module Top(/*AUTOARG*/
    input RIGHT;
    input [7:0] I_MC;
    input i_mode;
-   input i_summertime_set;
+   input i_summertime;
    
 
    output [5:0] SECOND;
@@ -37,7 +37,7 @@ module Top(/*AUTOARG*/
 	       .i_left			(LEFT),
 	       .i_right			(RIGHT),
 	       .i_mode			(i_mode),
-	       .i_summertime_set        (i_summertime_set));
+	       .i_summertime_set        (i_summertime));
    
 
    

@@ -2,7 +2,7 @@ module ClockTop(/*AUTOARG*/
    // Outputs
    o_sec, o_min, o_hr,
    // Inputs
-   i_clk, i_rstn, i_up, i_down, i_left, i_right, i_mode
+   i_clk, i_rstn, i_up, i_down, i_left, i_right, i_mode, i_summertime
    );
 
    input i_clk;
@@ -13,6 +13,7 @@ module ClockTop(/*AUTOARG*/
    input i_left;
    input i_right;
    input i_mode;
+   input i_summertime;
 
    output [5:0] o_sec;
    output [5:0] o_min;
@@ -60,12 +61,13 @@ module ClockTop(/*AUTOARG*/
       if (!i_rstn) r_cur_state <= 2'b00;
       else
 	case({r_cur_state, i_mode})
-	  {c_clock_mode, 1'b0} r_cur_state <= c_clock_mode;
-	  {c_clock_mode, 1'b1} r_cur_state <= c_stopwatch_mode;
-	  {c_stopwatch_mode, 1'b0} r_cur_state <= c_stopwatch_mode;
-	  {c_stopwatch_mode, 1'b1} r_cur_state <= c_timer_mode;
-	  {c_timer_mode, 1'b0} r_cur_state <= c_timer_mode;
-	  {c_timer_mode, 1'b1} r_cur_state <= c_clock_mode;
+	  {c_clock_mode, 1'b0}: r_cur_state <= c_clock_mode;
+	  {c_clock_mode, 1'b1}: r_cur_state <= c_stopwatch_mode;
+	  {c_stopwatch_mode, 1'b0}: r_cur_state <= c_stopwatch_mode;
+	  // {c_stopwatch_mode, 1'b1} r_cur_state <= c_timer_mode;
+	  // {c_timer_mode, 1'b0} r_cur_state <= c_timer_mode;
+	  // {c_timer_mode, 1'b1} r_cur_state <= c_clock_mode;
+	  {c_stopwatch_mode, 1'b1}: r_cur_state <= c_clock_mode;
 	  default: r_cur_state <= c_clock_mode;
 
 	endcase // case ({r_cur_state, i_mode})
@@ -104,7 +106,8 @@ module ClockTop(/*AUTOARG*/
 		     .i_rstn		(i_rstn),
 		     .i_set		(w_clock_set),
 		     .i_up		(w_clock_up),
-		     .i_ms_pulse        (w_ms_pulse));
+		     .i_ms_pulse        (w_ms_pulse),
+		     .i_summertime      (i_summertime));
    
 
    StopWatchModule StopWatch(// Outputs

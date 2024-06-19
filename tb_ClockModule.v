@@ -8,6 +8,7 @@ module tb_ClockModule();
    reg			i_clk;			// To TestClock of ClockModule.v
    reg			i_down;			// To TestClock of ClockModule.v
    reg			i_left;			// To TestClock of ClockModule.v
+   reg			i_ms_pulse;		// To TestClock of ClockModule.v
    reg			i_right;		// To TestClock of ClockModule.v
    reg			i_rstn;			// To TestClock of ClockModule.v
    reg			i_set;			// To TestClock of ClockModule.v
@@ -32,9 +33,13 @@ module tb_ClockModule();
 			 .i_right		(i_right),
 			 .i_rstn		(i_rstn),
 			 .i_set			(i_set),
-			 .i_up			(i_up));
+			 .i_up			(i_up),
+			 .i_ms_pulse		(i_ms_pulse));
 
    always #5 i_clk = ~i_clk;
+   always #30 i_ms_pulse = 1'b1;
+
+   always @(posedge i_ms_pulse) #10 i_ms_pulse = 0;
 
    always @(negedge i_rstn) #1 i_rstn = 1;
 

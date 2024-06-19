@@ -19,6 +19,7 @@ module ClockModule(/*AUTOARG*/
    input			i_set;			// To Controller of ClockControl.v
    input			i_up;			// To MSCounter of CounterNNN.v, ...
    input			i_ms_pulse;
+   input			i_summertime;
 
    output [5:0] 		o_sec;
    output [5:0] 		o_min;
@@ -83,7 +84,8 @@ module ClockModule(/*AUTOARG*/
 				 .i_clk			(i_clk),
 				 .i_rstn		(i_rstn),
 				 .i_up			(w_hr_up),
-				 .i_down		(w_hr_down));
+				 .i_down		(w_hr_down),
+				 .i_summertime          (i_summertime));
 
    ClockControl Controller(// Outputs
 			   .o_ms_up		(w_ms_up),

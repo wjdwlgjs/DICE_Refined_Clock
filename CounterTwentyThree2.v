@@ -8,6 +8,7 @@ module CounterTwentyThree2(/*AUTOARG*/
    input i_rstn;
    input i_up;
    input i_down;
+   input i_summertime;
 
    output [4:0] o_count;
    output 	o_carryup;
@@ -31,7 +32,7 @@ module CounterTwentyThree2(/*AUTOARG*/
 	endcase // case ({i_up, i_down})
    end
 
-   assign o_count = r_count;
+   assign o_count = (r_count & {5{~i_summertime}}) | (w_next_countup & {5{i_summertime}});
    assign o_carryup = {i_up, i_down, r_count} == {2'b10, 5'd23};
    assign o_borrowdown = {i_up, i_down, r_count} == {2'b01, 5'd0};
 
