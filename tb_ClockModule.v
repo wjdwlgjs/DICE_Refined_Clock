@@ -12,6 +12,7 @@ module tb_ClockModule();
    reg			i_right;		// To TestClock of ClockModule.v
    reg			i_rstn;			// To TestClock of ClockModule.v
    reg			i_set;			// To TestClock of ClockModule.v
+   reg			i_summertime;		// To TestClock of ClockModule.v
    reg			i_up;			// To TestClock of ClockModule.v
    // End of automatics
    /*AUTOWIRE*/
@@ -34,7 +35,8 @@ module tb_ClockModule();
 			 .i_rstn		(i_rstn),
 			 .i_set			(i_set),
 			 .i_up			(i_up),
-			 .i_ms_pulse		(i_ms_pulse));
+			 .i_ms_pulse		(i_ms_pulse),
+			 .i_summertime		(i_summertime));
 
    always #5 i_clk = ~i_clk;
    always #30 i_ms_pulse = 1'b1;

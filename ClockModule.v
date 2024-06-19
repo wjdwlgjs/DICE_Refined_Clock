@@ -7,7 +7,8 @@ module ClockModule(/*AUTOARG*/
    // Outputs
    o_sec, o_min, o_hr,
    // Inputs
-   i_clk, i_down, i_left, i_right, i_rstn, i_set, i_up, i_ms_pulse
+   i_clk, i_down, i_left, i_right, i_rstn, i_set, i_up, i_ms_pulse,
+   i_summertime
    );
 
 

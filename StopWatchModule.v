@@ -1,3 +1,8 @@
+`include "CounterNNN.v"
+`include "CounterFiftyNine2.v"
+`include "CounterTwentyThree2.v"
+`include "StopWatchControl.v"
+
 module StopWatchModule(/*AUTOARG*/
    // Outputs
    o_sec, o_min, o_hr,
@@ -78,7 +83,8 @@ module StopWatchModule(/*AUTOARG*/
 				 .i_clk			(i_clk),
 				 .i_rstn		(i_rstn),
 				 .i_up			(w_hr_up),
-				 .i_down		(w_hr_down));
+				 .i_down		(w_hr_down),
+				 .i_summertime		(1'b0));
    
 
    StopWatchControl Controller(// Outputs
