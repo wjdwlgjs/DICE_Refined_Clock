@@ -7,7 +7,7 @@ module ClockModule(/*AUTOARG*/
    // Outputs
    o_sec, o_min, o_hr,
    // Inputs
-   i_clk, i_down, i_left, i_right, i_rstn, i_set, i_up
+   i_clk, i_down, i_left, i_right, i_rstn, i_set, i_up, i_ms_pulse
    );
 
 
@@ -18,6 +18,7 @@ module ClockModule(/*AUTOARG*/
    input			i_rstn;			// To MSCounter of CounterNNN.v, ...
    input			i_set;			// To Controller of ClockControl.v
    input			i_up;			// To MSCounter of CounterNNN.v, ...
+   input			i_ms_pulse;
 
    output [5:0] 		o_sec;
    output [5:0] 		o_min;
@@ -101,6 +102,7 @@ module ClockModule(/*AUTOARG*/
 			   .i_down		(i_down),
 			   .i_left		(i_left),
 			   .i_right		(i_right),
+			   .i_ms_pulse          (i_ms_pulse),
 			   .i_ms_carryup	(w_ms_carryup),
 			   .i_sec_carryup	(w_sec_carryup),
 			   .i_min_carryup	(w_min_carryup));

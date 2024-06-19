@@ -3,8 +3,8 @@ module ClockControl(/*AUTOARG*/
 		    o_ms_up, o_ms_down, o_sec_up, o_sec_down, o_min_up, o_min_down,
 		    o_hr_up, o_hr_down,
 		    // Inputs
-		    i_clk, i_rstn, i_set, i_up, i_down, i_left, i_right, i_ms_carryup,
-		    i_sec_carryup, i_min_carryup
+		    i_clk, i_rstn, i_set, i_up, i_down, i_left, i_right, i_ms_pulse,
+		    i_ms_carryup, i_sec_carryup, i_min_carryup
 		    );
 
    input i_clk;
@@ -15,6 +15,7 @@ module ClockControl(/*AUTOARG*/
    input i_left;
    input i_right;
 
+   input i_ms_pulse;
    input i_ms_carryup;
    input i_sec_carryup;
    input i_min_carryup;
@@ -35,13 +36,8 @@ module ClockControl(/*AUTOARG*/
    localparam [1:0] c_set_min = 2'b10;
    localparam [1:0] c_set_hr = 2'b11;
 
-   assign o_ms_up = 1'b1;
+   assign o_ms_up = i_ms_pulse;
    assign o_ms_down = r_cur_state != c_run; // clear and keep at 0 in set modes
-   // set, up inputs are all synchronized, so this doesn't make this a mealy
-   // machine?
-   // count up if set sec mode, and up button pressed. (clear if up/down both
-   // pressed in set sec mode. count up if ms counter is
-   // carrying up.
    assign o_sec_up = ({r_cur_state, i_set, i_up} == {c_set_sec, 2'b11}) | ({r_cur_state, i_ms_carryup} == {c_run, 1'b1});
    assign o_sec_down = ({r_cur_state, i_set, i_down} == {c_set_sec, 2'b11});
 

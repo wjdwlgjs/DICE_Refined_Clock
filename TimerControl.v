@@ -8,6 +8,7 @@ module TimerControl(/*AUTOARG*/);
    input i_left;
    input i_right;
 
+   input i_ms_pulse;
    input i_ms_borrowdown;
    input i_sec_borrowdown;
    input i_min_borrowdown;
@@ -17,6 +18,7 @@ module TimerControl(/*AUTOARG*/);
    input [5:0] i_min;
    input [4:0] i_hr;
 
+   output      o_clk_counter_en;
    output o_ms_up;
    output o_ms_down;
    output o_sec_up;

@@ -2,7 +2,7 @@ module StopWatchModule(/*AUTOARG*/
    // Outputs
    o_sec, o_min, o_hr,
    // Inputs
-   i_clk, i_rstn, i_set, i_up, i_down, i_right, i_left
+   i_clk, i_rstn, i_set, i_up, i_down, i_right, i_left, i_ms_pulse
    );
 
    input i_clk;
@@ -12,6 +12,7 @@ module StopWatchModule(/*AUTOARG*/
    input i_down;
    input i_right;
    input i_left;
+   input i_ms_pulse;
 
    output [5:0] o_sec;
    output [5:0] o_min;
@@ -100,7 +101,8 @@ module StopWatchModule(/*AUTOARG*/
 			       .i_ms_carryup	(w_ms_carryup),
 			       .i_sec_carryup	(w_sec_carryup),
 			       .i_min_carryup	(w_min_carryup),
-			       .i_hr_carryup	(w_hr_carryup));
+			       .i_hr_carryup	(w_hr_carryup),
+			       .i_ms_pulse      (i_ms_pulse));
 
    
 

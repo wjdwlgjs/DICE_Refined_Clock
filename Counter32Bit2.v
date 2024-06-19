@@ -6,15 +6,18 @@ module Counter32Bit2(/*AUTOARG*/
    );
    input i_clk;
    input i_rstn;
-   input i_enable;
+   input i_enable; // also acts as a synchronous reset
 
    output [31:0] o_count;
+   output	 o_ms_pulse;
 
    reg [31:0] 	 r_count;
    localparam [31:0] c_limit = 32'd4999999;
 
    wire [30:0] 	 w_and_tree;
    wire [31:0] 	 w_toggle;
+
+   assign o_ms_pulse = r_count == c_limit;
 
    assign w_and_tree[0] = r_count[0] & r_count[1];
    assign w_and_tree[1] = r_count[2] & r_count[3];
@@ -88,7 +91,7 @@ module Counter32Bit2(/*AUTOARG*/
    
    always @(posedge i_clk or negedge i_rstn) begin
       if (!i_rstn) r_count <= 32'd0;
-      else if (!i_enable) r_count <= r_count;
+      else if (!i_enable) r_count <= 32'd0;
       else
 	case(r_count)
 	  c_limit: r_count <= 32'd0;
