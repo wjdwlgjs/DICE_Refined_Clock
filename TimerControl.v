@@ -18,7 +18,6 @@ module TimerControl(/*AUTOARG*/);
    input [5:0] i_min;
    input [4:0] i_hr;
 
-   output      o_clk_counter_en;
    output o_ms_up;
    output o_ms_down;
    output o_sec_up;
@@ -45,9 +44,8 @@ module TimerControl(/*AUTOARG*/);
    localparam [2:0] c_set_min = 3'b101;
    localparam [2:0] c_set_hr = 3'b110;
    
-
    assign o_ms_up = r_cur_state[2];
-   assign o_ms_down = r_cur_state == c_run;
+   assign o_ms_down = (r_cur_state == c_run) & i_ms_pulse;
    assign o_sec_up = ((r_cur_state == c_set_sec) & i_up);
    assign o_sec_down = ((r_cur_state == c_run) & i_ms_borrowdown) | ((r_cur_state == c_set_sec) & i_down);
    assign o_min_up = ((r_cur_state == c_set_min) & i_up);
@@ -81,7 +79,7 @@ module TimerControl(/*AUTOARG*/);
             // zero  |  0    |   0    |   0    |   0    |  0    |  1   |
             //
             // corner case 2: pause when 1ms remaining:
-            // ignore rlud and proceed to finish. 
+            // proceed to init instead of pause
             // pause & count==0 cannot be reached
             // state | run   | run    |finish|
             // count |  2    |  1     |  0
@@ -99,7 +97,7 @@ module TimerControl(/*AUTOARG*/);
                   3'b000: r_cur_state <= c_run;
                   3'b001: r_cur_state <= c_finish;
                   3'b010: r_cur_state <= c_pause;
-                  3'b011: r_cur_state <= c_finish;
+                  3'b011: r_cur_state <= c_init;
                   default: r_cur_state <= c_set_sec;
                endcase
             end

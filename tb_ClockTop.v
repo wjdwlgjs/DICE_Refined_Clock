@@ -1,4 +1,5 @@
 `include "ClockTop.v"
+`timescale 1ns/1ns
 
 module tb_ClockTop();
 
@@ -36,7 +37,7 @@ module tb_ClockTop();
 		      .i_set		(i_set));
 
    always #5 i_clk = ~i_clk;
-   always @(negedge i_rstn) i_rstn = 1;
+   always @(negedge i_rstn) #1 i_rstn = 1;
 
    always @(posedge i_up) #50 i_up <= 0;
    always @(posedge i_down) #50 i_down <= 0;
@@ -54,85 +55,166 @@ module tb_ClockTop();
       i_mode = 0;
       i_right = 0;
       i_left = 0;
+      i_set = 0;
 
+      #1000000;
+      // triggering up/down/right/left inputs in clock mode. Nothing should happen
+      i_up = 1;
       #100;
+      i_down = 1;
+      #100;
+      i_right = 1;
+      #100;
+      i_left = 1;
 
+      #10000;
+      // set = 1 in clock mode
       i_set = 1;
+      for (integer i = 0; i < 4; i = i + 1) begin
+	 // transition to left and set
+	 #100;
+	 i_up = 1;
+	 #100;
+	 i_down = 1;
+	 #100;
+	 i_up = 1;
+	 i_down = 1;
+	 #100;
+	 i_left = 1;
+      end // for (integer i = 0; i < 4; i = i + 1)
 
-      #100;
-      i_up = 1;
+      for (integer i = 0; i < 4; i = i + 1) begin
+	 // transition to right and set
+	 #100;
+	 i_up = 1;
+	 #100;
+	 i_down = 1;
+	 #100;
+	 i_up = 1;
+	 i_down = 1;
+	 #100;
+	 i_right = 1;
+      end // for (integer i = 0; i < 4; i = i + 1)
 
-      #100; 
-      i_down = 1;
-
-      #100;
-      i_right = 1;
-
-      #100;
-
-      i_up = 1;
-
-      #100;
-      i_down = 1;
-
-      #100;
-      i_right = 1;
-
-      #100;
-
-      i_up = 1;
-
-      #100;
-
-      i_down = 1;
-
-      #100;
-
-      i_right = 1;
-
-      #100;
-      i_up = 1;
-
-      #100;
-
-      i_left = 1;
-
-      #100;
-      i_up = 1;
-
-      #100;
-      i_left = 1;
-
-      #100;
-      i_up = 1;
-
-      #100;
-
-      i_up = 1;
-
-      #100;
-      i_mode = 1;
-
-      #100;
-
-      i_mode = 1;
-
-      #100;
-
+      #1000000;
       i_set = 0;
 
       #100;
+      i_mode = 1;
+      // summertime mode;
+
+      #1000000;
+
+      i_mode = 1;
+
+      // stopwatch mode;
+
+      #100000;
+      i_up = 1;
+
+      #100000;
+      i_up = 1;
+
+      #100000;
+      i_down = 1;
+
+      #100000;
+      i_down = 1;
+
+      #100000;
+      i_right = 1;
+
+      #100000;
+      i_right = 1;
+
+      #100000;
+      i_left = 1;
+
+      #100000;
+      i_left = 1;
+
+      #100000;
 
       i_up = 1;
 
+      #100000;
+      i_set = 1;
 
       #1000;
+      i_set = 0;
 
+      #100000;
+
+      i_mode = 1;
+
+      // timer mode
+      #100;
+      // nothing should happen
+      i_up = 1;
+
+      #100;
+      i_down = 1;
+      #100;
+      i_right = 1;
+      #100;
+      i_left = 1;
+      #100;
+
+      #100;
+      i_set = 1;
+
+      for (integer i = 0; i < 4; i = i + 1) begin
+	 // transition to left and set
+	 #100;
+	 i_up = 1;
+	 #100;
+	 i_down = 1;
+	 #100;
+	 i_up = 1;
+	 i_down = 1;
+	 #100;
+	 i_left = 1;
+      end // for (integer i = 0; i < 4; i = i + 1)
+
+      for (integer i = 0; i < 4; i = i + 1) begin
+	 // transition to right and set
+	 #100;
+	 i_up = 1;
+	 #100;
+	 i_down = 1;
+	 #100;
+	 i_up = 1;
+	 i_down = 1;
+	 #100;
+	 i_right = 1;
+      end // for (integer i = 0; i < 4; i = i + 1)
+
+      #100;
+      i_set = 0;
+
+      #100;
+      i_set = 1;
+
+      #100;
+      i_up = 1; // set timer to 1 sec
+
+      #100;
+      i_set = 0;
+
+      #100;
+      i_up = 1;
+
+      #10000000;
+
+      i_mode = 1;
+
+      // back to clock mode
+
+      #1000000;
 
       $finish;
-
       
-
+      
       
    end // initial begin
    

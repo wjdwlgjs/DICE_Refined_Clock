@@ -12,7 +12,7 @@ module Counter32Bit2(/*AUTOARG*/
    output	 o_ms_pulse;
 
    reg [31:0] 	 r_count;
-   localparam [31:0] c_limit = 32'd4999999;
+   localparam [31:0] c_limit = 32'd99999;
 
    wire [30:0] 	 w_and_tree;
    wire [31:0] 	 w_toggle;

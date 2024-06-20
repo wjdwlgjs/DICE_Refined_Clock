@@ -1,6 +1,7 @@
 `include "Counter32Bit2.v"
 `include "ClockModule.v"
 `include "StopWatchModule.v"
+`include "TimerModule2.v"
 `include "InputBuffer.v"
 
 module ClockTop(/*AUTOARG*/
@@ -26,13 +27,11 @@ module ClockTop(/*AUTOARG*/
 
    reg [1:0] r_cur_state;
 
-   /* localparam [1:0] c_clock_mode = 2'b00;
-   localparam [1:0] c_stopwatch_mode = 2'b01;
-   localparam [1:0] c_timer_mode = 2'b10; */
 
    localparam [1:0] c_clock_mode = 2'b00;
    localparam [1:0] c_summertime_mode = 2'b01;
    localparam [1:0] c_stopwatch_mode = 2'b10;
+   localparam [1:0] c_timer_mode = 2'b11;
 
    wire		    w_up;
    wire		    w_down;
@@ -64,7 +63,7 @@ module ClockTop(/*AUTOARG*/
    wire [5:0] w_stopwatch_min;
    wire [4:0] w_stopwatch_hr;
 
-   /* wire       w_timer_set;
+    wire       w_timer_set;
    wire       w_timer_up;
    wire       w_timer_down;
    wire       w_timer_left;
@@ -72,25 +71,31 @@ module ClockTop(/*AUTOARG*/
 
    wire [5:0] w_timer_sec;
    wire [5:0] w_timer_min;
-   wire [4:0] w_timer_hr; */
+   wire [4:0] w_timer_hr; 
 
    always @(posedge i_clk or negedge i_rstn) begin
       if (!i_rstn) r_cur_state <= c_clock_mode;
       else case({r_cur_state, w_mode})
 	     {c_clock_mode, 1'b1}: r_cur_state <= c_summertime_mode;
 	     {c_summertime_mode, 1'b1}: r_cur_state <= c_stopwatch_mode;
-	     {c_stopwatch_mode, 1'b1}: r_cur_state <= c_clock_mode;
+	     {c_stopwatch_mode, 1'b1}: r_cur_state <= c_timer_mode;
+	     {c_timer_mode, 1'b1}: r_cur_state <= c_clock_mode;
 	     default: r_cur_state <= r_cur_state;
 	   endcase // case ({r_cur_state, i_mode})
    end
 
    assign {w_clock_set, w_clock_up, w_clock_down, w_clock_left, w_clock_right} = {i_set, w_up, w_down, w_left, w_right} & {5{~r_cur_state[1]}};
-   assign {w_stopwatch_set, w_stopwatch_up, w_stopwatch_down, w_stopwatch_left, w_stopwatch_right} = {i_set, w_up, w_down, w_left, w_right} & {5{r_cur_state[1]}};
-   assign w_summertime = r_cur_state[0];
+   assign {w_stopwatch_set, w_stopwatch_up, w_stopwatch_down, w_stopwatch_left, w_stopwatch_right} = {i_set, w_up, w_down, w_left, w_right} & {5{r_cur_state == c_stopwatch_mode}};
+   assign {w_timer_set, w_timer_up, w_timer_down, w_timer_left, w_timer_right} = {i_set, w_up, w_down, w_left, w_right} & {5{r_cur_state == c_timer_mode}};
+   assign w_summertime = r_cur_state == c_summertime_mode;
 
-   assign o_sec = ({6{~r_cur_state[1]}} & w_clock_sec) | ({6{r_cur_state[1]}} & w_stopwatch_sec);
-   assign o_min = ({6{~r_cur_state[1]}} & w_clock_min) | ({6{r_cur_state[1]}} & w_stopwatch_min);
-   assign o_hr = ({5{~r_cur_state[1]}} & w_clock_hr) | ({5{r_cur_state[1]}} & w_stopwatch_hr);
+   assign o_sec = ({6{~r_cur_state[1]}} & w_clock_sec) | ({6{r_cur_state == c_stopwatch_mode}} & w_stopwatch_sec) | ({6{r_cur_state == c_timer_mode}} & w_timer_sec);
+   assign o_min = ({6{~r_cur_state[1]}} & w_clock_min) | ({6{r_cur_state == c_stopwatch_mode}} & w_stopwatch_min) | ({6{r_cur_state == c_timer_mode}} & w_timer_min);
+   assign o_hr = ({5{~r_cur_state[1]}} & w_clock_hr) | ({5{r_cur_state == c_stopwatch_mode}} & w_stopwatch_hr) | ({5{r_cur_state == c_timer_mode}} & w_timer_hr);
+
+
+
+   
 
    InputBuffer IBuffer(// Outputs
 		       .o_up		(w_up),
@@ -146,7 +151,7 @@ module ClockTop(/*AUTOARG*/
 			     .i_left		(w_stopwatch_left),
 			     .i_ms_pulse        (w_ms_pulse));
 
-   /* TimerModule Timer(// Outputs
+   TimerModule2 Timer(// Outputs
 		     .o_sec		(w_timer_sec[5:0]),
 		     .o_min		(w_timer_min[5:0]),
 		     .o_hr		(w_timer_hr[4:0]),
@@ -157,7 +162,8 @@ module ClockTop(/*AUTOARG*/
 		     .i_up		(w_timer_up),
 		     .i_down		(w_timer_down),
 		     .i_left		(w_timer_left),
-		     .i_right		(w_timer_right)); */
+		     .i_right		(w_timer_right),
+		      .i_ms_pulse       (w_ms_pulse));
 
    
 
